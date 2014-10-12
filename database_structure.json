@@ -1,0 +1,25 @@
+{
+  users: {
+    name: 'Chris Casola',
+    id: '',
+    categories: {
+      id: {
+        name: '',
+        color: ''
+        description: ''
+      }
+    }
+  },
+  recipes: {
+    userID: {
+      recipeId: {
+
+      },
+      ...
+    }
+  }
+}
+
+
+".read": true,
+        ".write": true,

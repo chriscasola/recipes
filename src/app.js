@@ -16,14 +16,41 @@ angular.module('recipeApp',
       templateUrl: 'templates/recipe.html',
       controller: 'rpMainContentCtrl'
     })
+    .when('/login', {
+      templateUrl: 'templates/login.html',
+      controller: 'rpLoginCtrl'
+    })
+    .when('/create_user', {
+      templateUrl: 'templates/create_user.html',
+      controller: 'rpCreateUserCtrl'
+    })
     .when('/', {
       templateUrl: 'templates/welcome.html',
       controller: 'rpWelcomeCtrl'
     })
     .otherwise( '/' );
   })
-  .factory('rpRecipesModel', function( $firebase) {
+  .constant('rpCurrentUser', {
+    email: ''
+  })
+  .factory('rpFirebase', function( $location ) {
     var ref = new Firebase("https://flickering-fire-9407.firebaseio.com/");
+    window.ref = ref;
+    return {
+      get: function( noRedirect, customRef ) {
+        var currentRef = ref;
+        if ( customRef ) {
+          currentRef = new Firebase("https://flickering-fire-9407.firebaseio.com/" + customRef);
+        }
+        if ( currentRef.getAuth() == null && !noRedirect ) {
+          $location.url('/login');
+        }
+        return currentRef;
+      }
+    }
+  })
+  .factory('rpRecipesModel', function( $firebase, rpFirebase) {
+    var ref = rpFirebase.get( false, 'recipes/');
     var sync = $firebase(ref);
 
     return {
@@ -32,6 +59,48 @@ angular.module('recipeApp',
       },
       add: function( recipe ) {
         return sync.$asArray().$add( recipe );
+      }
+    }
+  })
+  .factory('rpUsers', function( $q, $rootScope, rpCurrentUser ) {
+    var ref = new Firebase("https://flickering-fire-9407.firebaseio.com/");
+    return {
+      createUser: function( credentials ) {
+        var self = this;
+        var dfd = $q.defer();
+
+        ref.createUser(credentials, function( error ) {
+          if ( error ) {
+            dfd.reject(error);
+          }
+          else {
+            self.login( credentials ).then(function(userInfo) {
+              ref.child('users').child(userInfo.uid).set({
+                email: userInfo.password.email
+              });
+              dfd.resolve( userInfo );
+            });
+          }
+        });
+
+        return dfd.promise;
+      },
+      login: function( credentials ) {
+        var dfd = $q.defer();
+        ref.authWithPassword(credentials, function( error, userInfo ) {
+          if ( error == null ) {
+            $rootScope.$apply(function() {
+              console.log('good login');
+              rpCurrentUser.email = userInfo.password.email;
+              dfd.resolve(userInfo);
+            })
+          }
+          else {
+            console.log('bad login');
+            dfd.reject(error);
+          }
+        });
+        return dfd.promise;
       }
     }
   })
@@ -138,5 +207,21 @@ angular.module('recipeApp',
   .controller('rpWelcomeCtrl', function( $scope, $materialSidenav ) {
     $scope.showNavPane = function() {
       $materialSidenav('left').toggle();
+    }
+  })
+  .controller('rpLoginCtrl', function( $scope, $location, rpUsers ) {
+    $scope.credentials = {};
+    $scope.login = function() {
+      rpUsers.login($scope.credentials).then(function() {
+        $location.url('/');
+      });
+    }
+  })
+  .controller('rpCreateUserCtrl', function( $scope, $location, rpUsers ) {
+    $scope.credentials = {};
+    $scope.create = function() {
+      rpUsers.createUser($scope.credentials).then(function() {
+        $location.url('/');
+      });
     }
   });
