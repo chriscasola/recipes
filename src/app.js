@@ -17,7 +17,8 @@ angular.module('recipeApp',
       controller: 'rpMainContentCtrl'
     })
     .when('/', {
-      templateUrl: 'templates/welcome.html'
+      templateUrl: 'templates/welcome.html',
+      controller: 'rpWelcomeCtrl'
     })
     .otherwise( '/' );
   })
@@ -133,4 +134,9 @@ angular.module('recipeApp',
     $scope.answer = function( message ) {
       $materialDialog.hide(message);
     };
+  })
+  .controller('rpWelcomeCtrl', function( $scope, $materialSidenav ) {
+    $scope.showNavPane = function() {
+      $materialSidenav('left').toggle();
+    }
   });
