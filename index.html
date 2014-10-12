@@ -34,7 +34,7 @@
           <material-item ng-repeat="recipe in recipes">
             <material-item-content>
               <material-button ng-class="{'current-recipe-item': routeParams.recipeID === recipe.$id}" ng-click="openRecipe(recipe)" style="width: 100%; padding: 8px 0 8px 5px;">
-                <div style="text-align: left;">{{ recipe.name }}</div>
+                <div class="recipe-list-item">{{ recipe.name }}</div>
               </material-button>
             </material-item-content>
           </material-item>

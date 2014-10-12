@@ -16,9 +16,10 @@ angular.module('recipeApp',
       templateUrl: 'templates/recipe.html',
       controller: 'rpMainContentCtrl'
     })
-    .otherwise({
-      redirectTo: '/recipes/0'
-    });
+    .when('/', {
+      templateUrl: 'templates/welcome.html'
+    })
+    .otherwise( '/' );
   })
   .factory('rpRecipesModel', function( $firebase) {
     var ref = new Firebase("https://flickering-fire-9407.firebaseio.com/");

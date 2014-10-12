@@ -26,8 +26,9 @@ h3.heading {
   background-color: #e4e4e4;
 }
 
-@media handheld and (orientation: portrait) {
-  [hide-mobile] {
-    display: none;
-  }
+.recipe-list-item {
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
