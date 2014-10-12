@@ -1,0 +1,21 @@
+<material-toolbar class="material-theme-dark">
+    <div class="material-toolbar-tools">
+      <material-button hide-md ng-click="showNavPane()" class="material-button-colored material-theme-light-blue" style="width: 40px;">=</material-button>
+      <span class="material-flex">{{ recipe.name }}</span>
+    </div>
+</material-toolbar>
+<material-content class="material-content-padding">
+  <h1>Ingredients</h1>
+  <ul>
+    <li ng-repeat="ingredient in recipe.ingredients">
+      {{ ingredient.quantity + ' ' + ingredient.units + ' ' + ingredient.description }}
+    </li>
+  </ul>
+  <h1>Steps</h1>
+  <ul>
+    <li ng-repeat="step in recipe.steps">
+      {{ step.description }}
+    </li>
+  </ul>
+  <material-button ng-click="editRecipe()" class="material-button-colored material-theme-green">Edit Recipe</material-button>
+</material-content>

@@ -1,0 +1,33 @@
+.rp-side-nav .material-button-inner {
+  text-align: left;
+}
+
+material-input-group.long > input {
+  width: 400px;
+}
+
+material-input-group.medium > input {
+  width: 100px;
+}
+
+material-input-group.short > input {
+  width: 60px;
+}
+
+h3.heading {
+  margin: 40px 0 0 0;
+}
+
+.dangerous-region {
+  margin-top: 50px;
+}
+
+.current-recipe-item {
+  background-color: #e4e4e4;
+}
+
+@media handheld and (orientation: portrait) {
+  [hide-mobile] {
+    display: none;
+  }
+}

@@ -1,0 +1,44 @@
+<material-toolbar class="material-theme-dark">
+    <div class="material-toolbar-tools">
+      <span ng-if="isCreateMode" class="material-flex">Add a Recipe</span>
+      <span ng-if="!isCreateMode" class="material-flex">Editing: {{ recipe.name }}</span>
+    </div>
+</material-toolbar>
+<material-content class="material-content-padding">
+  <material-toolbar>
+    <material-input-group type="text">
+      <label for="recipe-name">Recipe Name</label>
+      <material-input id="recipe-name" ng-model="recipe.name" type="text">
+    </material-input-group>
+  </material-toolbar>
+  <h3 class="heading">Ingredients</h3>
+  <div ng-repeat="ingredient in recipe.ingredients">
+    <div layout="horizontal" layout-padding>
+      <material-input-group class="short" style="margin-right: 10px;" type="text">
+        <label>Quantity</label>
+        <material-input ng-model="ingredient.quantity" type="number">
+      </material-input-group>
+      <material-input-group class="medium" style="margin-right: 10px;" type="text">
+        <label>Units</label>
+        <material-input ng-model="ingredient.units" type="text">
+      </material-input-group>
+      <material-input-group class="long" type="text">
+        <label>Description</label>
+        <material-input ng-model="ingredient.description" type="text">
+      </material-input-group>
+    </div>
+  </div>
+  <material-button ng-click="addIngedient()" class="material-button-colored material-theme-green">Add Ingredient</material-button>
+  <h3 class="heading">Steps</h3>
+  <div ng-repeat="step in recipe.steps">
+    <material-input-group class="long" type="text">
+      <label>Step {{ $index + 1 }}</label>
+      <material-input ng-model="step.description" type="text">
+    </material-input-group>
+  </div>
+  <material-button ng-click="addStep()" class="material-button-colored material-theme-green">Add Step</material-button>
+  <div class="dangerous-region">
+    <material-button ng-click="doneEditing()" class="material-button-colored material-theme-green">Done Editing</material-button>
+    <material-button ng-click="deleteRecipe()" class="material-button-colored material-theme-red">Delete Recipe</material-button>
+  </div>
+</material-content>

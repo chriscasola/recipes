@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recipes</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.js"></script>
+  <script src="bower_components/hammerjs/hammer.js"></script>
+  <script src="bower_components/firebase/firebase.js"></script>
+  <script src="bower_components/angularfire/dist/angularfire.js"></script>
+  <script src="bower_components/angular-material/angular-material.js"></script>
+  <script src="bower_components/lodash/dist/lodash.js"></script>
+</head>
+
+<body ng-app="recipeApp" layout="horizontal">
+  <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left" layout="vertical">
+    <div ng-controller="rpNavPaneCtrl">
+      <material-toolbar class="material-theme-light-blue">
+        <div layout="horizontal">
+          <section layout="vertical" layout-sm="horizontal" layout-align="center center">
+            <material-button ng-click="createRecipe()" class="material-button-colored material-theme-green" style="width: 50px; margin-left: 10px">+</material-button>
+          </section>
+          <h1 class="material-toolbar-tools">Recipes</h1>
+        </div>
+      </material-toolbar>
+      <material-content>
+        <material-list>
+          <material-item ng-repeat="recipe in recipes">
+            <material-item-content>
+              <material-button ng-class="{'current-recipe-item': routeParams.recipeID === recipe.$id}" ng-click="openRecipe(recipe)" style="width: 100%; padding: 8px 0 8px 5px;">
+                <div style="text-align: left;">{{ recipe.name }}</div>
+              </material-button>
+            </material-item-content>
+          </material-item>
+        </material-list>
+      </material-content>
+    </div>
+  </material-sidenav>
+
+  <div layout="vertical" layout-fill layout-align="left" ng-view></div>
+<script src="src/app.js"></script>
+</body>
+</html>
